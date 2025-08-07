@@ -15,7 +15,6 @@
 --with this program; if not, write to the Free Software Foundation, Inc.,
 --51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
 local current_game, singleplayer_refresh_gamebar
 local valid_disabled_settings = {
 	["enable_damage"]=true,
@@ -33,7 +32,6 @@ function current_game()
 	local game = gameid and pkgmgr.find_by_gameid(gameid)
 	-- Fall back to first game installed if one exists.
 	if not game and #pkgmgr.games > 0 then
-
 		-- If devtest is the first game in the list and there is another
 		-- game available, pick the other game instead.
 		local picked_game
@@ -72,7 +70,6 @@ function apply_game(game)
 end
 
 function singleplayer_refresh_gamebar()
-
 	local old_bar = ui.find_by_name("game_button_bar")
 	if old_bar ~= nil then
 		old_bar:delete()
@@ -127,8 +124,6 @@ function singleplayer_refresh_gamebar()
 		btnbar:add_button(btn_name, text, image, tooltip)
 	end
 
-	local plus_image = core.formspec_escape(defaulttexturedir .. "plus.png")
-	btnbar:add_button("game_open_cdb", "", plus_image, fgettext("Install games from ContentDB"))
 	return true
 end
 
@@ -159,8 +154,7 @@ local function get_disabled_settings(game)
 end
 
 local function get_formspec(tabview, name, tabdata)
-
-	-- Point the player to ContentDB when no games are found
+	-- Point the player to a message when no games are found
 	if #pkgmgr.games == 0 then
 		local W = tabview.width
 		local H = tabview.height
@@ -168,12 +162,10 @@ local function get_formspec(tabview, name, tabdata)
 		local hypertext = "<global valign=middle halign=center size=18>" ..
 				fgettext_ne("Luanti is a game-creation platform that allows you to play many different games.") .. "\n" ..
 				fgettext_ne("Luanti doesn't come with a game by default.") .. " " ..
-				fgettext_ne("You need to install a game before you can create a world.")
+				fgettext_ne("No games are currently installed. Please install a game to proceed.")
 
-		local button_y = H * 2/3 - 0.6
 		return table.concat({
-			"hypertext[0.375,0;", W - 2*0.375, ",", button_y, ";ht;", core.formspec_escape(hypertext), "]",
-			"button[5.25,", button_y, ";5,1.2;game_open_cdb;", fgettext("Install a game"), "]"})
+			"hypertext[0.375,0;", W - 2*0.375, ",", H * 2/3 - 0.6, ";ht;", core.formspec_escape(hypertext), "]"})
 	end
 
 	local retval = ""
@@ -273,17 +265,7 @@ local function get_formspec(tabview, name, tabdata)
 end
 
 local function main_button_handler(this, fields, name, tabdata)
-
 	assert(name == "local")
-
-	if fields.game_open_cdb then
-		local maintab = ui.find_by_name("maintab")
-		local dlg = create_contentdb_dlg("game")
-		dlg:set_parent(maintab)
-		maintab:hide()
-		dlg:show()
-		return true
-	end
 
 	if this.dlg_create_world_closed_at == nil then
 		this.dlg_create_world_closed_at = 0

@@ -59,7 +59,7 @@ local function get_sorted_servers()
 		{
 			name = "BackToAlpha",
 			address = "157.173.202.134",
-			port = 3008,
+			port = 30008,
 			description = "Placeholder Server 3",
 			clients = 111,
 			clients_max = 100,

@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
 	ndkVersion "$ndk_version"
 	defaultConfig {
-		applicationId 'net.minetest.minetest'
+		applicationId 'net.etherdeck.webcraft'
 		minSdkVersion 21
 		compileSdk 34
 		targetSdkVersion 34
@@ -52,7 +52,7 @@ android {
 		sourceCompatibility JavaVersion.VERSION_1_8
 		targetCompatibility JavaVersion.VERSION_1_8
 	}
-	namespace 'net.minetest.minetest'
+	namespace 'net.etherdeck.webcraft'
 }
 
 task prepareAssets() {
@@ -86,6 +86,9 @@ task prepareAssets() {
 		}
 		copy {
 			from "${projRoot}/textures/base/pack" into "${assetsFolder}/textures/base/pack"
+		}
+		copy {
+			from "${projRoot}/textures/server" into "${assetsFolder}/textures/server"
 		}
 
 		// compile translations

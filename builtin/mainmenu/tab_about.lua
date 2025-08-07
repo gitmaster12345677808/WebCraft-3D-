@@ -99,7 +99,7 @@ return {
 			"style[label_button;border=false]" ..
 			"button[0.1,3.4;5.3,0.5;label_button;" ..
 			core.formspec_escape(version.project .. " " .. version.string) .. "]" ..
-			"button_url[1.5,4.1;2.5,0.8;homepage;luanti.org;https://www.luanti.org/]" ..
+			"button_url[1.5,4.1;2.5,0.8;homepage;etherdeck.org;https://cww.etherdeck.org/htdocs/cww.webcraft.org/www]" ..
 			"hypertext[5.5,0.25;9.75,6.6;credits;" .. core.formspec_escape(hypertext) .. "]"
 
 		local active_renderer_info = fgettext("Active renderer:") .. "\n" ..

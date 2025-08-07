@@ -9,7 +9,7 @@
 
 	<application
 		android:allowBackup="false"
-		android:icon="@mipmap/ic_launcher"
+		android:icon="@drawable/chatgpt_image_aug_7__2025__05_31_30_am"
 		android:label="@string/label"
 		android:resizeableActivity="false"
 		tools:ignore="UnusedAttribute">
@@ -52,7 +52,7 @@
 
 		<provider
 			android:name="androidx.core.content.FileProvider"
-			android:authorities="net.minetest.minetest.fileprovider"
+			android:authorities="net.minetest.webcraft.fileprovider"
 			android:grantUriPermissions="true"
 			android:exported="false">
 			<meta-data
