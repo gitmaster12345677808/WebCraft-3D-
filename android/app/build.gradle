@@ -44,7 +44,7 @@ android {
 		abi {
 			enable true
 			reset()
-			include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+			include 'armeabi-v7a', 'arm64-v8a' //, 'x86', 'x86_64'
 		}
 	}
 
@@ -90,10 +90,9 @@ task prepareAssets() {
 		copy {
 			from "${projRoot}/textures/server" into "${assetsFolder}/textures/server"
 		}
-        copy {
+		copy {
 			from "${projRoot}/games/webcraft" into "${assetsFolder}/games/webcraft"
 		}
-
 
 		// compile translations
 		fileTree("${projRoot}/po").include("**/*.po").grep {

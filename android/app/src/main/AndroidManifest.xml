@@ -52,7 +52,7 @@
 
 		<provider
 			android:name="androidx.core.content.FileProvider"
-			android:authorities="net.minetest.webcraft.fileprovider"
+			android:authorities="net.etherdeck.webcraft.fileprovider"
 			android:grantUriPermissions="true"
 			android:exported="false">
 			<meta-data

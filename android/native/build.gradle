@@ -28,7 +28,7 @@ android {
 		abi {
 			enable true
 			reset()
-			include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+			include 'armeabi-v7a', 'arm64-v8a' //, 'x86', 'x86_64'
 		}
 	}
 
@@ -39,7 +39,7 @@ android {
 			}
 		}
 	}
-	namespace 'net.etherdeck'
+	namespace 'net.minetest'
 }
 
 // get precompiled deps
@@ -52,7 +52,7 @@ if (new File(depsDir, 'armeabi-v7a').exists()) {
 	task downloadDeps(type: Download) {
 		def depsZip = new File(buildDir, 'deps.zip')
 
-		src 'https://github.com/minetest/minetest_android_deps/releases/download/latest/deps-lite.zip'
+		src 'https://github.com/luanti-org/luanti_android_deps/releases/download/latest/deps-lite.zip'
 		dest depsZip
 		overwrite false
 

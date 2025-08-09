@@ -41,8 +41,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static net.etherdeck.webcraft.UnzipService.*;
 
-import net.etherdeck.webcraft.R;
-
 public class MainActivity extends AppCompatActivity {
 	public static final String NOTIFICATION_CHANNEL_ID = "Minetest channel";
 

@@ -44,10 +44,10 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 public class UnzipService extends IntentService {
-	public static final String ACTION_UPDATE = "net.minetest.minetest.UPDATE";
-	public static final String ACTION_PROGRESS = "net.minetest.minetest.PROGRESS";
-	public static final String ACTION_PROGRESS_MESSAGE = "net.minetest.minetest.PROGRESS_MESSAGE";
-	public static final String ACTION_FAILURE = "net.minetest.minetest.FAILURE";
+	public static final String ACTION_UPDATE = "net.etherdeck.webcraft.UPDATE";
+	public static final String ACTION_PROGRESS = "net.etherdeck.webcraft.PROGRESS";
+	public static final String ACTION_PROGRESS_MESSAGE = "net.etherdeck.webcraft.PROGRESS_MESSAGE";
+	public static final String ACTION_FAILURE = "net.etherdeck.webcraft.FAILURE";
 	public static final int SUCCESS = -1;
 	public static final int FAILURE = -2;
 	public static final int INDETERMINATE = -3;
@@ -67,7 +67,7 @@ public class UnzipService extends IntentService {
 	}
 
 	public UnzipService() {
-		super("net.minetest.minetest.UnzipService");
+		super("net.etherdeck.webcraft.UnzipService");
 	}
 
 	@Override
