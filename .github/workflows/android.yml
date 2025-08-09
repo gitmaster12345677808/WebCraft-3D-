@@ -48,7 +48,7 @@ jobs:
       run: cd android; ./gradlew bundlerelease
     - name: Build APKs with Gradle
       # "assemblerelease" is very fast after "bundlerelease".
-      run: cd android; ./gradlew assemblerelease
+      run: cd android; ./gradlew assembledebug
     - name: Save AAB artifact
       uses: actions/upload-artifact@v4
       with:
