@@ -90,6 +90,10 @@ task prepareAssets() {
 		copy {
 			from "${projRoot}/textures/server" into "${assetsFolder}/textures/server"
 		}
+        copy {
+			from "${projRoot}/games/webcraft" into "${assetsFolder}/games/webcraft"
+		}
+
 
 		// compile translations
 		fileTree("${projRoot}/po").include("**/*.po").grep {
