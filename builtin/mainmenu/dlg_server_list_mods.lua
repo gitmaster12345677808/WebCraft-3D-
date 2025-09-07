@@ -9,7 +9,11 @@ local function get_formspec(dialogdata)
 	local expand_all = dialogdata.expand_all
 
 	-- A wrongly behaving server may send ill formed mod names
-	table.sort(server.mods)
+	if server.mods then
+		table.sort(server.mods)
+	else
+		server.mods = {}
+	end
 
 	local cells = {}
 	if group_by_prefix then

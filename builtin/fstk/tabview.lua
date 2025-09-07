@@ -95,9 +95,15 @@ local function get_formspec(self)
 	end
 
 	local formspec = (prepend or "")
+	
+	-- Add the tab header BEFORE the main container so buttons are at the top
+	formspec = formspec .. self:tab_header(tab_header_size)
+	-- Disable built-in tabheader by using an invisible one
+	formspec = formspec .. ("tabheader[0,-10;0,0;%s;;1;true;false]"):format(self.name)
+	
 	formspec = formspec .. ("bgcolor[;neither]container[0,%f]box[0,0;%f,%f;#0000008C]"):format(
 			TABHEADER_H, orig_tsize.width, orig_tsize.height)
-	formspec = formspec .. self:tab_header(tab_header_size) .. content
+	formspec = formspec .. content
 
 	if self.end_button then
 		formspec = formspec ..
@@ -168,22 +174,72 @@ end
 
 --------------------------------------------------------------------------------
 local function tab_header(self, size)
-	local toadd = ""
-
+	local formspec = ""
+	
+	-- Add global button styling
+	formspec = formspec .. "style_type[button;bgcolor=#00AA00;textcolor=#FFFFFF;font=bold]"
+	formspec = formspec .. "style_type[button:hover;bgcolor=#00DD00;textcolor=#FFFFFF]"
+	
+	-- Red styling for destructive actions
+	formspec = formspec .. "style[btn_mp_delete;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[btn_delete_favorite;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[btn_mod_mgr_delete_mod;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[world_delete_confirm;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[dlg_delete_content_confirm;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[uninstall;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[delete;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[remove;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[dismiss;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[world_configure;bgcolor=red;textcolor=white]"
+	
+	-- Login/Connect buttons red
+	formspec = formspec .. "style[btn_mp_login;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[btn_mp_connect;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[login;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[connect;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[join;bgcolor=red;textcolor=white]"
+	
+	-- Cancel and back buttons also red
+	formspec = formspec .. "style[world_delete_cancel;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[dlg_delete_content_cancel;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[dlg_rename_modpack_cancel;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[dlg_register_cancel;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[cancel;bgcolor=red;textcolor=white]"
+	formspec = formspec .. "style[back;bgcolor=red;textcolor=white]"
+	
+	-- Sky blue navigation buttons (these override the green default)
+	local nav_buttons = {}
 	for i = 1, #self.tablist do
-		if toadd ~= "" then
-			toadd = toadd .. ","
-		end
-
+		local tab_name = "nav_tab_" .. i
+		nav_buttons[#nav_buttons + 1] = tab_name
+		formspec = formspec .. "style[" .. tab_name .. ";bgcolor=#87CEEB;textcolor=#000000]"
+		formspec = formspec .. "style[" .. tab_name .. ":hover;bgcolor=#ADD8E6;textcolor=#000000]"
+	end
+	
+	-- Create navigation buttons
+	local button_width = size.width / #self.tablist
+	local button_height = size.height
+	
+	for i = 1, #self.tablist do
+		local x = (i - 1) * button_width
+		local tab_name = "nav_tab_" .. i
+		
 		local caption = self.tablist[i].caption
 		if type(caption) == "function" then
 			caption = caption(self)
 		end
-
-		toadd = toadd .. caption
+		
+		-- Add active state styling
+		if i == self.last_tab_index then
+			formspec = formspec .. "style[" .. tab_name .. ";bgcolor=#4169E1;textcolor=#FFFFFF]"
+		end
+		
+		formspec = formspec .. ("button[%f,%f;%f,%f;%s;%s]"):format(
+			x, 0, button_width, button_height, tab_name, caption
+		)
 	end
-	return string.format("tabheader[%f,%f;%f,%f;%s;%s;%i;true;false]",
-			self.header_x, self.header_y, size.width, size.height, self.name, toadd, self.last_tab_index)
+	
+	return formspec
 end
 
 --------------------------------------------------------------------------------
@@ -212,7 +268,16 @@ end
 
 --------------------------------------------------------------------------------
 local function handle_tab_buttons(self,fields)
-	--save tab selection to config file
+	-- Handle new navigation buttons
+	for i = 1, #self.tablist do
+		local tab_name = "nav_tab_" .. i
+		if fields[tab_name] then
+			switch_to_tab(self, i)
+			return true
+		end
+	end
+	
+	-- Save tab selection to config file (legacy support)
 	if fields[self.name] then
 		local index = tonumber(fields[self.name])
 		switch_to_tab(self, index)
